@@ -1,18 +1,11 @@
 import './App.css';
 import MainView from "./MainView";
 
-function App() {
+export default function App() {
 
-    function initBuilding() {
-
-    }
-
-
-    return (
+  return (
     <div>
-      <MainView initialState={initBuilding()}/>
+      <MainView />
     </div>
-    );
+  );
 }
-
-export default App;

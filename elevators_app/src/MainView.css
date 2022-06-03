@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     margin: 5px;
     border: 3px solid transparent;
 
@@ -13,9 +14,14 @@
     width: 4vw;
 }
 
+.boxesContainer {
+    display: flex;
+    flex-direction: row;
+}
+
 .pickupButton button {
     width: 3.5vw;
-    height: 2.8vw;
+    height: 1.4vw;
     background-color: aquamarine;
     color: black;
 }

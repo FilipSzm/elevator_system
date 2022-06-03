@@ -1,0 +1,101 @@
+.mainContainer {
+    display: flex;
+}
+
+.pickupButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border: 3px solid transparent;
+
+    height: 4vw;
+    width: 4vw;
+}
+
+.pickupButton button {
+    width: 3.5vw;
+    height: 2.8vw;
+    background-color: aquamarine;
+    color: black;
+}
+
+.pickupButton button:hover,
+.pickupButton button:focus {
+    background-color: #50947e;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.pickupButton button:active {
+    background-color: #284639;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
+
+.elevatorBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid black;
+    border-radius: 8px;
+    flex-direction: column;
+
+    margin: 5px;
+    background-color: aquamarine;
+
+    height: 4vw;
+    width: 4vw;
+}
+
+.elevatorBox.withElevator {
+    background-color: #586e9f;
+}
+
+.elevatorBox button:first-child {
+    width: 3.5vw;
+    height: 1.8vw;
+}
+
+.elevatorBox button:nth-child(2) {
+    width: 2.4vw;
+    height: 1.2vw;
+    background-color: cornflowerblue;
+}
+
+.boxButton {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa6400;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: baseline;
+    font-size: 0.53vw;
+}
+
+.boxButton:hover,
+.boxButton:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.boxButton:hover {
+    transform: translateY(-1px);
+}
+
+.boxButton:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}

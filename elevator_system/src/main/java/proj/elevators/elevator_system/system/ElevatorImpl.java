@@ -5,6 +5,7 @@ import proj.elevators.elevator_system.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static proj.elevators.elevator_system.model.Direction.*;
 
@@ -80,16 +81,19 @@ public class ElevatorImpl implements Elevator {
     public void dropOff() {
         if (targets.stream().anyMatch(t -> t.floorNumber() == floorNumber)) {
             direction = NO_DIRECTION;
+            currentDestinationFloor = floorNumber;
             targets = targets.stream()
                     .filter(t -> t.floorNumber() != floorNumber)
-                    .toList();
+                    .collect(Collectors.toList());
         }
     }
 
     @Override
     public void pickUpIfSameFloor(Pickup pickup) {
-        if (floorNumber == pickup.floorNumber())
+        if (floorNumber == pickup.floorNumber()) {
             direction = NO_DIRECTION;
+            currentDestinationFloor = floorNumber;
+        }
     }
 
     @Override
@@ -144,7 +148,7 @@ public class ElevatorImpl implements Elevator {
 
     @Override
     public boolean haveToTurnBack(int relativeDistance) {
-        if (this.direction == NO_DIRECTION)
+        if (this.direction == NO_DIRECTION || this.floorNumber == this.currentDestinationFloor)
             return false;
 
         if (this.direction == UP && relativeDistance >= 0)
@@ -154,7 +158,7 @@ public class ElevatorImpl implements Elevator {
     }
 
     @Override
-    public void makeStep() {
+    public void increaseWaitTimeScalar() {
         targets.forEach(Target::increaseWaitTimeScalar);
     }
 

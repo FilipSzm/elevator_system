@@ -14,7 +14,7 @@ export default function BuildingState({data, targetFunc, teleportFunc}) {
   return (
     <div className="boxesContainer">
       {data.map(x =>
-        <div key={x[0]}>{[10,9,8,7,6,5,4,3,2,1,0]
+        <div key={x[0]}>{[6,5,4,3,2,1,0,-1,-2,-3,-4,-5]
           .map(n =>
             <ElevatorBox
               key={n}

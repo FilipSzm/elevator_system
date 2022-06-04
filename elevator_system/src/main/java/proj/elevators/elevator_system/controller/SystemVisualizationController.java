@@ -1,17 +1,14 @@
 package proj.elevators.elevator_system.controller;
 
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import proj.elevators.elevator_system.exception.ElevatorSystemException;
-import proj.elevators.elevator_system.model.Direction;
 import proj.elevators.elevator_system.model.ElevatorStatus;
-import proj.elevators.elevator_system.model.templates.DirectionParam;
-import proj.elevators.elevator_system.model.templates.FloorNumberParam;
+import proj.elevators.elevator_system.model.param.DirectionParam;
+import proj.elevators.elevator_system.model.param.FloorNumberParam;
 import proj.elevators.elevator_system.service.SystemVisualizationService;
 
 import java.util.List;

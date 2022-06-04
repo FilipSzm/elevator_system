@@ -2,7 +2,7 @@ package proj.elevators.elevator_system.model;
 
 public class Target {
 
-    final public static float targetScalar = 4F;
+    final public static float targetScalar = 8F;
 
     final private int floorNumber;
     private int waitTimeScalar;
@@ -22,7 +22,9 @@ public class Target {
         if (elevator.haveToTurnBack(distance))
             return 0;
 
-        var priority = (float) waitTimeScalar * targetScalar / distance;
+        distance = Math.abs(distance);
+
+        var priority = (float) waitTimeScalar * targetScalar / (distance + 1F);
         return priority >= 0F ? priority : Float.MAX_VALUE;
     }
 

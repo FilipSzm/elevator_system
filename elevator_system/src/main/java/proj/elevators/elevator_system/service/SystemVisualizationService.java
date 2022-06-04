@@ -17,23 +17,23 @@ public class SystemVisualizationService {
         elevatorSystem = new ElevatorSystemImpl(5);
     }
 
-    public List<ElevatorStatus> status() {
+    synchronized public List<ElevatorStatus> status() {
         return elevatorSystem.status();
     }
 
-    public void step() {
+    synchronized public void step() {
         elevatorSystem.step();
     }
 
-    public void update(int elevatorId, int floorNumber) {
+    synchronized public void update(int elevatorId, int floorNumber) {
         elevatorSystem.update(elevatorId, floorNumber);
     }
 
-    public void pickup(int floorNumber, Direction direction) {
+    synchronized public void pickup(int floorNumber, Direction direction) {
         elevatorSystem.pickup(floorNumber, direction);
     }
 
-    public void target(int elevatorId, int floorNumber) {
+    synchronized public void target(int elevatorId, int floorNumber) {
         elevatorSystem.target(elevatorId, floorNumber);
     }
 }

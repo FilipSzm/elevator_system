@@ -22,15 +22,19 @@ public class Pickup {
         this.direction = direction;
     }
 
+    public Direction direction() {
+        return direction;
+    }
+
     public float calculatePriority(Elevator elevator) {
         int distance = floorNumber - elevator.floorNumber();
 
         if (elevator.haveToTurnBack(distance))
             return 0;
 
-        float sameDirectionScalar = areDirectionsSame(this.direction, elevator.direction()) ? 2F : 1F;
+        distance = Math.abs(distance);
 
-        var priority = (float) waitTimeScalar * sameDirectionScalar / distance;
+        var priority = (float) waitTimeScalar / (distance + 1F);
         return priority >= 0 ? priority : Float.MAX_VALUE;
     }
 

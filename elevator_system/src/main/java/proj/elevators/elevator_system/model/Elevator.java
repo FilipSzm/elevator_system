@@ -32,5 +32,5 @@ public interface Elevator {
 
     boolean haveToTurnBack(int relativeDistance);
 
-    void makeStep();
+    void increaseWaitTimeScalar();
 }

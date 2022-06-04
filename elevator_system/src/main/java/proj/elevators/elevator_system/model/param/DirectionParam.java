@@ -1,4 +1,4 @@
-package proj.elevators.elevator_system.model.templates;
+package proj.elevators.elevator_system.model.param;
 
 import proj.elevators.elevator_system.model.Direction;
 

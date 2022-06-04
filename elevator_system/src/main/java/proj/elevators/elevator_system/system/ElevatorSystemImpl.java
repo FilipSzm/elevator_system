@@ -1,14 +1,15 @@
 package proj.elevators.elevator_system.system;
 
-import proj.elevators.elevator_system.exception.DuplicateElevatorIdException;
-import proj.elevators.elevator_system.exception.IncorrectNumberOfElevatorsException;
-import proj.elevators.elevator_system.exception.IncorrectPickupDirectionException;
-import proj.elevators.elevator_system.exception.NoElevatorWithIdException;
+import proj.elevators.elevator_system.exception.*;
 import proj.elevators.elevator_system.model.*;
+import proj.elevators.elevator_system.model.util.Pair;
+import proj.elevators.elevator_system.model.util.Triple;
 
 import java.time.temporal.ValueRange;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class ElevatorSystemImpl implements ElevatorSystem {
@@ -57,7 +58,7 @@ public class ElevatorSystemImpl implements ElevatorSystem {
 
     @Override
     public void update(int elevatorId, Elevator elevator) {
-        if (elevators.stream().anyMatch(e -> e.id() == elevator.id()))
+        if (elevators.stream().anyMatch(e -> e.id() == elevator.id() && e.id() != elevatorId))
             throw new DuplicateElevatorIdException();
 
         elevators.stream()
@@ -78,23 +79,55 @@ public class ElevatorSystemImpl implements ElevatorSystem {
 
     @Override
     public void step() {
+        elevators.forEach(Elevator::dropOff);
         pickupList = updatePickupList();
 
         var notMovedToPickups = new ArrayList<>(pickupList);
-        elevators.forEach(e -> {
-            e.dropOff();
-            if (notMovedToPickups.isEmpty()) {
-                e.move();
-                return;
-            }
-            var pickup =
-                    pickupWithHighestPriorityForElevator(notMovedToPickups, e);
-            if (e.moveUsingPickupOrNot(pickup))
-                notMovedToPickups.remove(pickup);
-        });
+        var notMovedElevators = new ArrayList<>(elevators);
 
+        while (!notMovedToPickups.isEmpty() && !notMovedElevators.isEmpty()) {
+            var pair = pickupElevatorPairWithHighestPriority(notMovedToPickups, notMovedElevators);
+
+            if (pair.second().moveUsingPickupOrNot(pair.first()))
+                notMovedToPickups.remove(pair.first());
+
+            notMovedElevators.remove(pair.second());
+        }
+        notMovedElevators.forEach(Elevator::move);
+
+        elevators.forEach(Elevator::dropOff);
+        pickupList = updatePickupList();
+
+        elevators.forEach(Elevator::increaseWaitTimeScalar);
         pickupList.forEach(Pickup::increaseWaitTimeScalar);
-        elevators.forEach(Elevator::makeStep);
+    }
+
+    private Pair<Pickup, Elevator> pickupElevatorPairWithHighestPriority(List<Pickup> pickupList, List<Elevator> elevators) {
+        Triple<Pickup, Elevator, Float> bestTriple = pickupList.stream()
+                .map(
+                        p -> {
+                            var triple = elevators.stream()
+                                    .map(e -> new Triple<>(p, e, p.calculatePriority(e))).toList();
+
+                            return tripleWithBestElevator(triple);
+                        }
+                )
+                .max(Comparator.comparing(Triple::third))
+                .orElseThrow(EmptyCollectionException::new);
+
+        return new Pair<>(bestTriple.first(), bestTriple.second());
+    }
+
+    private Triple<Pickup, Elevator, Float> tripleWithBestElevator(List<Triple<Pickup, Elevator, Float>> tripleList) {
+        var highestPriority = tripleList.stream().map(Triple::third).max(Float::compareTo).orElseThrow(EmptyCollectionException::new);
+        var elementsWithHighestPriority = tripleList.stream()
+                .filter(e -> Objects.equals(e.third(), highestPriority)).toList();
+
+        for (var triple : elementsWithHighestPriority) {
+            if (Direction.areDirectionsSame(triple.first().direction(), triple.second().direction()))
+                return triple;
+        }
+        return elementsWithHighestPriority.stream().findFirst().orElseThrow(EmptyCollectionException::new);
     }
 
     private List<Pickup> updatePickupList() {
@@ -109,19 +142,6 @@ public class ElevatorSystemImpl implements ElevatorSystem {
                     );
         }
         return pickupList;
-    }
-
-    private Pickup pickupWithHighestPriorityForElevator(List<Pickup> pickupList, Elevator elevator) {
-        float bestPriority = -1F;
-        Pickup bestPickup = null;
-        for (var p : pickupList) {
-            var priority = p.calculatePriority(elevator);
-            if (priority > bestPriority) {
-                bestPriority = priority;
-                bestPickup = p;
-            }
-        }
-        return bestPickup;
     }
 
     @Override

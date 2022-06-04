@@ -40,9 +40,9 @@ export default function MainView() {
     axios.put('http://localhost:8080/api/vis/pickup/' + id, direction)
   }
 
-  function teleport(id, floorNum) {
+  async function teleport(id, floorNum) {
     let floor = {floorNumber: floorNum}
-    axios.patch('http://localhost:8080/api/vis/update/' + id, floor)
+    await axios.patch('http://localhost:8080/api/vis/update/' + id, floor)
 
     axios.get('http://localhost:8080/api/vis/status')
       .then(res => {
@@ -55,8 +55,8 @@ export default function MainView() {
     axios.put('http://localhost:8080/api/vis/target/' + id, floor)
   }
 
-  function step() {
-    axios.put('http://localhost:8080/api/vis/step')
+  async function step() {
+    await axios.put('http://localhost:8080/api/vis/step')
 
     axios.get('http://localhost:8080/api/vis/status')
       .then(res => {
@@ -67,7 +67,7 @@ export default function MainView() {
   return (
     <div className="mainContainer">
       <div>
-        {[10,9,8,7,6,5,4,3,2,1,0].map(n =>
+        {[6,5,4,3,2,1,0,-1,-2,-3,-4,-5].map(n =>
           <PickupButton key={n} floorNumber={n} pickupFunc={pickup}/>
         )}
       </div>

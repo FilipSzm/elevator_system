@@ -21,7 +21,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <logger name="jwzp_ww_fs.app" level="trace" additivity="false">
+    <logger name="proj.elevators.elevatorSystem" level="trace" additivity="false">
         <appender-ref ref="File" />
         <appender-ref ref="Console" />
     </logger>

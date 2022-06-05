@@ -88,9 +88,10 @@ public interface Elevator {
      * (incrementation, decrementation or not changing if {@code Pickup} or {@code Target} is on the same floor),
      * also {@code direction} of this {@code Elevator} changes symmetrically to {@code floorNumber} change.
      * @param pickup {@code Pickup to move to if have higher priority than all {@code targets}}
+     * @param targetScalar scalar for {@code Target} priority
      * @return whether {@code Elevator} is moving to {@code Pickup} given as parameter or not
      */
-    boolean moveUsingPickupOrNot(Pickup pickup);
+    boolean moveUsingPickupOrNot(Pickup pickup, float targetScalar);
 
     /**
      * function that tries to move this {@code Elevator} to the direction of {@code Target} with the highest priority.
@@ -99,8 +100,9 @@ public interface Elevator {
      * {@code Elevator's} {@code floorNumber} one value closer to {@code Target}
      * (incrementation, decrementation or not changing if {@code Target} is on the same floor),
      * also {@code direction} of this {@code Elevator} changes symmetrically to {@code floorNumber} change.
+     * @param targetScalar scalar for {@code Target} priority
      */
-    void move();
+    void move(float targetScalar);
 
     /**
      * @param relativeDistance distance from this {@code Elevator}

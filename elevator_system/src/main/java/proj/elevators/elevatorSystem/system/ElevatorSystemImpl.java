@@ -12,7 +12,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
+/**
+ * Default implementation of {@code ElevatorSystem} interface
+ */
 public class ElevatorSystemImpl implements ElevatorSystem {
+
+    /**
+     * scalar that defines correlation of {@code Target} priorities to {@code Pickup},
+     * default value is equal to {@code 8.0}.
+     */
+    private float targetScalar;
 
     final private List<Elevator> elevators;
     private List<Pickup> pickupList;
@@ -20,6 +29,13 @@ public class ElevatorSystemImpl implements ElevatorSystem {
     public ElevatorSystemImpl(int numberOfElevators) {
         elevators = initElevators(numberOfElevators);
         pickupList = new ArrayList<>();
+        targetScalar = 8F;
+    }
+
+    public ElevatorSystemImpl(int numberOfElevators, float targetScalar) {
+        elevators = initElevators(numberOfElevators);
+        pickupList = new ArrayList<>();
+        this.targetScalar = targetScalar;
     }
 
     private List<Elevator> initElevators(int numberOfElevators) {
@@ -88,12 +104,12 @@ public class ElevatorSystemImpl implements ElevatorSystem {
         while (!notMovedToPickups.isEmpty() && !notMovedElevators.isEmpty()) {
             var pair = pickupElevatorPairWithHighestPriority(notMovedToPickups, notMovedElevators);
 
-            if (pair.second().moveUsingPickupOrNot(pair.first()))
+            if (pair.second().moveUsingPickupOrNot(pair.first(), targetScalar))
                 notMovedToPickups.remove(pair.first());
 
             notMovedElevators.remove(pair.second());
         }
-        notMovedElevators.forEach(Elevator::move);
+        notMovedElevators.forEach(e -> e.move(targetScalar));
 
         elevators.forEach(Elevator::dropOff);
         pickupList = updatePickupList();
@@ -157,7 +173,12 @@ public class ElevatorSystemImpl implements ElevatorSystem {
     }
 
     @Override
-    public List<Elevator> statusFull() {
+    public List<Elevator> elevators() {
         return elevators;
+    }
+
+    @Override
+    public void targetScalar(float targetScalar) {
+        this.targetScalar = targetScalar;
     }
 }

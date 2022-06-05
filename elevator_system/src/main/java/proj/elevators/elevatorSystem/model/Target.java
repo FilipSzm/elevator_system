@@ -7,12 +7,6 @@ package proj.elevators.elevatorSystem.model;
 public class Target {
 
     /**
-     * static scalar that defines correlation of {@code Target} priorities to {@code Pickup},
-     * default value is equal to {@code 8.0}.
-     */
-    public static float targetScalar = 8F;
-
-    /**
      * number of floor target request comes from.
      */
     final private int floorNumber;
@@ -43,9 +37,10 @@ public class Target {
     /**
      * function that evaluates priority of this {@code Target} in relation to {@code Elevator}.
      * @param elevator {@code Elevator} to which priority is evaluated
+     * @param targetScalar scalar for {@code Target} priority
      * @return priority (non negative)
      */
-    public float calculatePriority(Elevator elevator) {
+    public float calculatePriority(Elevator elevator, float targetScalar) {
         int distance = floorNumber - elevator.floorNumber();
 
         if (elevator.haveToTurnBack(distance))

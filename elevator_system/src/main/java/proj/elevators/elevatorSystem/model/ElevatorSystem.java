@@ -76,5 +76,11 @@ public interface ElevatorSystem {
      * {@code elevators} getter.
      * @return {@code elevators}
      */
-    List<Elevator> statusFull();
+    List<Elevator> elevators();
+
+    /**
+     * {@code targetScalar} setter.
+     * @param targetScalar scalar for {@code Target} priority
+     */
+    void targetScalar(float targetScalar);
 }

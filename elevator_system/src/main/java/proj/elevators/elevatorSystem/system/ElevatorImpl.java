@@ -186,13 +186,14 @@ public class ElevatorImpl implements Elevator {
      * (incrementation, decrementation or not changing if {@code Pickup} or {@code Target} is on the same floor),
      * also {@code direction} of this {@code Elevator} changes symmetrically to {@code floorNumber} change.
      * @param pickup {@code Pickup to move to if have higher priority than all {@code targets}}
+     * @param targetScalar scalar for {@code Target} priority
      * @return whether {@code Elevator} is moving to {@code Pickup} given as parameter or not
      */
     @Override
-    public boolean moveUsingPickupOrNot(Pickup pickup) {
-        var bestTarget = findBestTarget();
+    public boolean moveUsingPickupOrNot(Pickup pickup, float targetScalar) {
+        var bestTarget = findBestTarget(targetScalar);
 
-        if (bestTarget.isPresent() && isTargetsPriorityHigherThanPickups(bestTarget.get(), pickup)) {
+        if (bestTarget.isPresent() && isTargetsPriorityHigherThanPickups(bestTarget.get(), pickup, targetScalar)) {
             makeMove(bestTarget.get().floorNumber());
             return false;
         }
@@ -208,21 +209,23 @@ public class ElevatorImpl implements Elevator {
      * {@code Elevator's} {@code floorNumber} one value closer to {@code Target}
      * (incrementation, decrementation or not changing if {@code Target} is on the same floor),
      * also {@code direction} of this {@code Elevator} changes symmetrically to {@code floorNumber} change.
+     * @param targetScalar scalar for {@code Target} priority
      */
     @Override
-    public void move() {
-        makeMove(findBestTarget().orElse(new Target(floorNumber)).floorNumber());
+    public void move(float targetScalar) {
+        makeMove(findBestTarget(targetScalar).orElse(new Target(floorNumber)).floorNumber());
     }
 
     /**
      * function that finds {@code Target} with the highest priority for this {@code Elevator}.
+     * @param targetScalar scalar for {@code Target} priority
      * @return {@code Target} with highest priority
      */
-    private Optional<Target> findBestTarget() {
+    private Optional<Target> findBestTarget(float targetScalar) {
         float bestPriority = -1F;
         Optional<Target> bestTarget = Optional.empty();
         for (var t : targets) {
-            var priority = t.calculatePriority(this);
+            var priority = t.calculatePriority(this, targetScalar);
             if (priority > bestPriority) {
                 bestPriority = priority;
                 bestTarget = Optional.of(t);
@@ -282,10 +285,11 @@ public class ElevatorImpl implements Elevator {
      * utility function that compares priorities.
      * @param target {@code Target} whose priority is to compare
      * @param pickup {@code Pickup} whose priority is to compare
+     * @param targetScalar scalar for {@code Target} priority
      * @return whether {@code Targets} priority is higher than {@code Pickups},
      * if both are equal it returns {@code true}
      */
-    private boolean isTargetsPriorityHigherThanPickups(Target target, Pickup pickup) {
-        return target.calculatePriority(this) >= pickup.calculatePriority(this);
+    private boolean isTargetsPriorityHigherThanPickups(Target target, Pickup pickup, float targetScalar) {
+        return target.calculatePriority(this, targetScalar) >= pickup.calculatePriority(this);
     }
 }

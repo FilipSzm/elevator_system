@@ -1,7 +1,7 @@
 package proj.elevators.elevatorSystem.model.util;
 
 /**
- * simple implementation of tuple with 3 elements
+ * simple implementation of tuple with 3 elements.
  * @param first
  * @param second
  * @param third

@@ -1,7 +1,7 @@
 package proj.elevators.elevatorSystem.model;
 
 /**
- * most essential parameters of elevator
+ * most essential parameters of elevator.
  * @param id id of elevator
  * @param currentFloorNumber number of floor on which elevator is currently located
  * @param destinationFloorNumber floor number to which the elevator is currently headed

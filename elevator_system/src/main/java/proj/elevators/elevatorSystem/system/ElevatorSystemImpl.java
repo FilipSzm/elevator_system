@@ -150,4 +150,14 @@ public class ElevatorSystemImpl implements ElevatorSystem {
                 .map(Elevator::status)
                 .toList();
     }
+
+    @Override
+    public List<Pickup> pickupList() {
+        return pickupList;
+    }
+
+    @Override
+    public List<Elevator> statusFull() {
+        return elevators;
+    }
 }

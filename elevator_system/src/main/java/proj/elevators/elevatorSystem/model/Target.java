@@ -74,8 +74,8 @@ public class Target {
     /**
      * @return new {@code TargetResponse} with parameters same as this {@code Target}.
      */
-    public TargetResponse toTargetResponse() {
-        return new TargetResponse(floorNumber, waitTimeScalar);
+    public TargetResponse toTargetResponse(int elevatorId) {
+        return new TargetResponse(elevatorId, floorNumber, waitTimeScalar);
     }
 
     /**

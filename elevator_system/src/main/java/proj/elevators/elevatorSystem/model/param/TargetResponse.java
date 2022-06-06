@@ -5,4 +5,4 @@ package proj.elevators.elevatorSystem.model.param;
  * @param floorNumber
  * @param waitTimeScalar
  */
-public record TargetResponse(int floorNumber, int waitTimeScalar) { }
+public record TargetResponse(int elevatorId, int floorNumber, int waitTimeScalar) { }

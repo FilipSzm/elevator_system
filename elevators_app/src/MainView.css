@@ -10,8 +10,8 @@
     margin: 5px;
     border: 3px solid transparent;
 
-    height: 4vw;
-    width: 4vw;
+    height: 8vw;
+    width: 8vw;
 }
 
 .boxesContainer {
@@ -24,6 +24,30 @@
     height: 1.4vw;
     background-color: aquamarine;
     color: black;
+}
+
+.stepButton {
+    margin: 10px;
+}
+
+.stepButton button {
+    width: 5.5vw;
+    height: 3.4vw;
+    background-color: #736619;
+    color: black;
+    font-size: 1.53vw;
+}
+
+.stepButton button:hover,
+.stepButton button:focus {
+    background-color: #bea829;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.stepButton button:active {
+    background-color: #e7cc32;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
 }
 
 .pickupButton button:hover,
@@ -49,8 +73,8 @@
     margin: 5px;
     background-color: aquamarine;
 
-    height: 4vw;
-    width: 4vw;
+    height: 8vw;
+    width: 8vw;
 }
 
 .elevatorBox.withElevator {

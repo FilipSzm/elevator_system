@@ -9,12 +9,12 @@ const ElevatorBox = ({classes, targetFunc, teleportFunc, floorNumber, elevatorId
 }
 
 
-export default function BuildingState({data, targetFunc, teleportFunc}) {
+export default function BuildingState({data, targetFunc, teleportFunc, floors}) {
 
   return (
     <div className="boxesContainer">
       {data.map(x =>
-        <div key={x[0]}>{[6,5,4,3,2,1,0,-1,-2,-3,-4,-5]
+        <div key={x[0]}>{floors
           .map(n =>
             <ElevatorBox
               key={n}

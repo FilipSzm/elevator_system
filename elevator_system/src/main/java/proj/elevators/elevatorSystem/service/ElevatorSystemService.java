@@ -46,9 +46,12 @@ public class ElevatorSystemService {
                 .map(Pickup::toPickupResponse)
                 .toList();
         var targets = elevatorSystem.elevators().stream()
-                .map(Elevator::targets)
+                .map(
+                        e -> e.targets().stream()
+                                .map(t -> t.toTargetResponse(e.id()))
+                                .toList()
+                )
                 .flatMap(Collection::stream)
-                .map(Target::toTargetResponse)
                 .toList();
 
         return new StatusResponse(elevators, pickups, targets);

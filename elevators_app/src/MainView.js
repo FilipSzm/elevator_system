@@ -17,7 +17,7 @@ const PickupButton = ({floorNumber, pickupFunc}) => {
 
 const StepButton = ({stepFunc}) => {
   return (
-    <div>
+    <div className="stepButton">
       <button className="boxButton" onClick={() => stepFunc()}>step</button>
     </div>
   );
@@ -64,15 +64,21 @@ export default function MainView() {
       })
   }
 
+  const floors = [0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10]
+
   return (
     <div className="mainContainer">
       <div>
-        {[6,5,4,3,2,1,0,-1,-2,-3,-4,-5].map(n =>
+        {floors.map(n =>
           <PickupButton key={n} floorNumber={n} pickupFunc={pickup}/>
         )}
       </div>
 
-      <BuildingState data={statusList} teleportFunc={teleport} targetFunc={target}/>
+      <BuildingState data={statusList}
+                     teleportFunc={teleport}
+                     targetFunc={target}
+                     floors={floors}
+      />
 
       <StepButton stepFunc={step}/>
     </div>

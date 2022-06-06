@@ -71,10 +71,10 @@ public class ElevatorSystemImpl implements ElevatorSystem {
         if (!ValueRange.of(1, 16).isValidIntValue(numberOfElevators))
             throw new IncorrectNumberOfElevatorsException();
 
-        var elevators = new ArrayList<Elevator>(numberOfElevators);
+        var tempElevators = new ArrayList<Elevator>(numberOfElevators);
         IntStream.range(0, numberOfElevators)
-                .forEachOrdered(i -> elevators.add(new ElevatorImpl(i)));
-        return elevators;
+                .forEachOrdered(i -> tempElevators.add(new ElevatorImpl(i)));
+        return tempElevators;
     }
 
     /**
@@ -238,17 +238,17 @@ public class ElevatorSystemImpl implements ElevatorSystem {
      * @return filtered list of {@code Pickups}
      */
     private List<Pickup> updatePickupList() {
-        var pickupList = new ArrayList<Pickup>();
+        var tempPickupList = new ArrayList<Pickup>();
         for (var pickup : this.pickupList) {
             elevators.stream()
                     .filter(e -> e.floorNumber() == pickup.floorNumber())
                     .findFirst()
                     .ifPresentOrElse(
                             e -> e.pickUpIfSameFloor(pickup),
-                            () -> pickupList.add(pickup)
+                            () -> tempPickupList.add(pickup)
                     );
         }
-        return pickupList;
+        return tempPickupList;
     }
 
     /**

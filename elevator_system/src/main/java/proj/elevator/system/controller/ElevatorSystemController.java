@@ -14,6 +14,7 @@ import proj.elevator.system.system.ElevatorImpl;
 @RequestMapping("/api/system")
 public class ElevatorSystemController {
 
+    private static final ResponseString SUCCESS = new ResponseString("success");
     private final Logger logger;
     private final ElevatorSystemService service;
 
@@ -27,22 +28,21 @@ public class ElevatorSystemController {
     public ResponseEntity<?> init(@RequestBody InitParam initParam) {
         try {
             service.init(initParam.numberOfElevators(), initParam.targetScalar());
+
             logger.info(
-                    "Initialized elevator system with " +
-                            initParam.numberOfElevators() +
-                            " elevators and target scalar equal to: " +
-                            initParam.targetScalar()
+                    "Initialized elevator system with {} elevators and target scalar equal to: {}",
+                    initParam.numberOfElevators(),
+                    initParam.targetScalar()
             );
         } catch (ElevatorSystemException e) {
             logger.info(
-                    "Could not initialize elevator system with " +
-                            initParam.numberOfElevators() +
-                            " elevators and target scalar equal to: " +
-                            initParam.targetScalar()
+                    "Could not initialize elevator system with {} elevators and target scalar equal to: {}",
+                    initParam.numberOfElevators(),
+                    initParam.targetScalar()
             );
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PutMapping("/pickup")
@@ -50,21 +50,19 @@ public class ElevatorSystemController {
         try {
             service.pickup(pickupParam.floorNumber(), pickupParam.direction());
             logger.info(
-                    "Added pickup request to floor number " +
-                            pickupParam.floorNumber() +
-                            " and direction: " +
-                            pickupParam.direction()
+                    "Added pickup request to floor number {} and direction: {}",
+                    pickupParam.floorNumber(),
+                    pickupParam.direction()
             );
         } catch (ElevatorSystemException e) {
             logger.info(
-                    "Could not add pickup request to floor number " +
-                            pickupParam.floorNumber() +
-                            " and direction: " +
-                            pickupParam.direction()
+                    "Could not add pickup request to floor number {} and direction: {}",
+                    pickupParam.floorNumber(),
+                    pickupParam.direction()
             );
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PutMapping("/target")
@@ -72,21 +70,19 @@ public class ElevatorSystemController {
         try {
             service.target(targetParam.elevatorId(), targetParam.floorNumber());
             logger.info(
-                    "Added target request for elevator with id " +
-                            targetParam.elevatorId() +
-                            " to floor number " +
-                            targetParam.floorNumber()
+                    "Added target request for elevator with id {} to floor number {}",
+                    targetParam.elevatorId(),
+                    targetParam.floorNumber()
             );
         } catch (ElevatorSystemException e) {
             logger.info(
-                    "Could not add target request for elevator with id " +
-                            targetParam.elevatorId() +
-                            " to floor number " +
-                            targetParam.floorNumber()
+                    "Could not add target request for elevator with id {} to floor number {}",
+                    targetParam.elevatorId(),
+                    targetParam.floorNumber()
             );
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PatchMapping("/update")
@@ -97,21 +93,19 @@ public class ElevatorSystemController {
                     ElevatorImpl.fromElevatorParam(updateParam.elevatorParam())
             );
             logger.info(
-                    "Updated elevator with id " +
-                            updateParam.elevatorId() +
-                            " with parameters: " +
-                            updateParam.elevatorParam()
+                    "Updated elevator with id {} with parameters: {}",
+                    updateParam.elevatorId(),
+                    updateParam.elevatorParam()
             );
         } catch (ElevatorSystemException e) {
             logger.info(
-                    "Could not update elevator with id " +
-                            updateParam.elevatorId() +
-                            " with parameters: " +
-                            updateParam.elevatorParam()
+                    "Could not update elevator with id {} with parameters: {}",
+                    updateParam.elevatorId(),
+                    updateParam.elevatorParam()
             );
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PatchMapping("/step")
@@ -123,7 +117,7 @@ public class ElevatorSystemController {
             logger.info("Could not perform step");
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @GetMapping("/status")

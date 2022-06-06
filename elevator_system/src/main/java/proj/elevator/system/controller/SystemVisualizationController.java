@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import proj.elevator.system.model.ElevatorStatus;
 import proj.elevator.system.model.param.FloorNumberParam;
+import proj.elevator.system.model.param.ResponseString;
 import proj.elevator.system.service.SystemVisualizationService;
 import proj.elevator.system.exception.ElevatorSystemException;
 import proj.elevator.system.model.param.DirectionParam;
@@ -18,6 +19,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class SystemVisualizationController {
 
+    private static final ResponseString SUCCESS = new ResponseString("success");
     private final Logger logger;
     private final SystemVisualizationService service;
 
@@ -34,7 +36,7 @@ public class SystemVisualizationController {
             statusList = service.status();
             logger.info("Returned status");
         } catch (ElevatorSystemException e) {
-            logger.info("Could not return status.", e);
+            logger.info("Could not return status.");
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
         return ResponseEntity.ok().body(statusList);
@@ -43,39 +45,48 @@ public class SystemVisualizationController {
     @PatchMapping("/update/{elevatorId}")
     public ResponseEntity<?> update(@PathVariable int elevatorId, @RequestBody FloorNumberParam floorNumberParam) {
         try {
-            service.update(elevatorId, Integer.parseInt(floorNumberParam.floorNumber()));
-            logger.info("Updated position of elevator with id:" + elevatorId + ", to: " + floorNumberParam.floorNumber());
+            var floorNumber = Integer.parseInt(floorNumberParam.floorNumber());
+            service.update(elevatorId, floorNumber);
+            logger.info("Updated position of elevator with id: {}, to: {}", elevatorId, floorNumber);
         } catch (ElevatorSystemException e) {
-            logger.info("Could not update position of elevator with id: " + elevatorId, e);
+            logger.info("Could not update position of elevator with id: {}", elevatorId);
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PutMapping("/pickup/{floorNumber}")
     public ResponseEntity<?> pickup(@PathVariable int floorNumber, @RequestBody DirectionParam directionParam) {
         try {
-            service.pickup(floorNumber, directionParam.direction());
+            var direction = directionParam.direction();
+            service.pickup(floorNumber, direction);
             logger.info(
-                    "Added pickup request for floor number: " + floorNumber + ", with direction: " +
-                            directionParam.direction().name());
+                    "Added pickup request for floor number: {}, with direction: {}",
+                    floorNumber,
+                    direction
+            );
         } catch (ElevatorSystemException e) {
-            logger.info("Could not add pickup request for floor number: " + floorNumber, e);
+            logger.info("Could not add pickup request for floor number: {}", floorNumber);
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PutMapping("/target/{elevatorId}")
     public ResponseEntity<?> target(@PathVariable int elevatorId, @RequestBody FloorNumberParam floorNumberParam) {
         try {
-            service.target(elevatorId, Integer.parseInt(floorNumberParam.floorNumber()));
-            logger.info("Added target request for elevator with id: " + elevatorId + ", to floor number: " + floorNumberParam.floorNumber());
+            var floorNumber = Integer.parseInt(floorNumberParam.floorNumber());
+            service.target(elevatorId, floorNumber);
+            logger.info(
+                    "Added target request for elevator with id: {}, to floor number: {}",
+                    elevatorId,
+                    floorNumber
+            );
         } catch (ElevatorSystemException e) {
-            logger.info("Could not add target request for elevator with id: " + elevatorId, e);
+            logger.info("Could not add target request for elevator with id: {}", elevatorId);
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 
     @PutMapping("/step")
@@ -87,6 +98,6 @@ public class SystemVisualizationController {
             logger.info("Could not perform step", e);
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(SUCCESS);
     }
 }

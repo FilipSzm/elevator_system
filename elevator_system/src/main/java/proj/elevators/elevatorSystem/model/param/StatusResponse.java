@@ -1,8 +1,6 @@
 package proj.elevators.elevatorSystem.model.param;
 
 import proj.elevators.elevatorSystem.model.ElevatorStatus;
-import proj.elevators.elevatorSystem.model.Pickup;
-import proj.elevators.elevatorSystem.model.Target;
 
 import java.util.List;
 
@@ -12,4 +10,4 @@ import java.util.List;
  * @param pickups
  * @param targets
  */
-public record StatusParam(List<ElevatorStatus> elevators, List<Pickup> pickups, List<Target> targets) { }
+public record StatusResponse(List<ElevatorStatus> elevators, List<PickupResponse> pickups, List<TargetResponse> targets) { }

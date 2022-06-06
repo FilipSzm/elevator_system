@@ -1,6 +1,7 @@
 package proj.elevators.elevatorSystem.system;
 
 import proj.elevators.elevatorSystem.model.*;
+import proj.elevators.elevatorSystem.model.param.ElevatorParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,22 @@ public class ElevatorImpl implements Elevator {
         direction = NO_DIRECTION;
         currentDestinationFloor = 0;
         targets = new ArrayList<>();
+    }
+
+    /**
+     * all fields constructor.
+     * @param id id of {@code Elevator}
+     * @param floorNumber floorNumber of {@code Elevator}
+     * @param direction direction of {@code Elevator}
+     * @param currentDestinationFloor currentDestinationFloor of {@code Elevator}
+     * @param targets targets of {@code Elevator}
+     */
+    private ElevatorImpl(int id, int floorNumber, Direction direction, int currentDestinationFloor, List<Target> targets) {
+        this.id = id;
+        this.floorNumber = floorNumber;
+        this.direction = direction;
+        this.currentDestinationFloor = currentDestinationFloor;
+        this.targets = targets;
     }
 
     /**
@@ -279,6 +296,23 @@ public class ElevatorImpl implements Elevator {
     @Override
     public void increaseWaitTimeScalar() {
         targets.forEach(Target::increaseWaitTimeScalar);
+    }
+
+    /**
+     * construct new {@code Elevator} from {@code ElevatorParam}.
+     * @param elevatorParam {@code ElevatorParam} to construct {@code Elevator} from
+     * @return newly constructed {@code Elevator}
+     */
+    public static Elevator fromElevatorParam(ElevatorParam elevatorParam) {
+        return new ElevatorImpl(
+                elevatorParam.id(),
+                elevatorParam.floorNumber(),
+                elevatorParam.direction(),
+                elevatorParam.currentDestinationFloor(),
+                elevatorParam.targets().stream()
+                        .map(Target::fromTargetResponse)
+                        .collect(Collectors.toList())
+        );
     }
 
     /**

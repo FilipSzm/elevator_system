@@ -54,9 +54,11 @@ public interface ElevatorSystem {
      *     <li>Clears all {@code Targets} and {@code Pickups}
      *     that are on the same floor as {@code Elevator}</li>
      *     <li>Moves {@code Elevators} to most optimal
-     *     {@code Target} of {@code Pickup}</li>
+     *     {@code Target} or {@code Pickup}</li>
      *     <li>Clears all {@code Targets} and {@code Pickups}
      *      that are on the same floor as {@code Elevator}</li>
+     *      <li>increase time wait time scalar for all {@code Targets}
+     *      and {@code Pickups}</li>
      * </ul>
      */
     void step();
@@ -80,7 +82,9 @@ public interface ElevatorSystem {
 
     /**
      * {@code targetScalar} setter.
-     * @param targetScalar scalar for {@code Target} priority
+     * @param targetScalar scalar value for all {@code Target} priorities in the system,
+     * it gets absolute value of this number because
+     * {@code targetScalar} cannot be negative
      */
     void targetScalar(float targetScalar);
 }

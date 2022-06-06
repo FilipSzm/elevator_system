@@ -1,5 +1,7 @@
 package proj.elevators.elevatorSystem.model;
 
+import proj.elevators.elevatorSystem.model.param.TargetResponse;
+
 /**
  * {@code Target} is an object that represents single target request
  * for {@code Elevator} in {@code ElevatorSystem}.
@@ -24,6 +26,16 @@ public class Target {
     public Target(int floorNumber) {
         this.floorNumber = floorNumber;
         waitTimeScalar = 1;
+    }
+
+    /**
+     * all fields constructor.
+     * @param floorNumber floorNumber of {@code Target}
+     * @param waitTimeScalar waitTimeScalar of {@code Target}
+     */
+    private Target(int floorNumber, int waitTimeScalar) {
+        this.floorNumber = floorNumber;
+        this.waitTimeScalar = waitTimeScalar;
     }
 
     /**
@@ -57,5 +69,21 @@ public class Target {
      */
     public void increaseWaitTimeScalar() {
         if (waitTimeScalar < 1000) waitTimeScalar++;
+    }
+
+    /**
+     * @return new {@code TargetResponse} with parameters same as this {@code Target}.
+     */
+    public TargetResponse toTargetResponse() {
+        return new TargetResponse(floorNumber, waitTimeScalar);
+    }
+
+    /**
+     * constructs new {@code Target} from {@code TargetResponse}.
+     * @param targetResponse {@code TargetResponse} from which to construct
+     * @return new {@code Target}
+     */
+    public static Target fromTargetResponse(TargetResponse targetResponse) {
+        return new Target(targetResponse.floorNumber(), targetResponse.waitTimeScalar());
     }
 }

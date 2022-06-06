@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import proj.elevators.elevatorSystem.exception.ElevatorSystemException;
 import proj.elevators.elevatorSystem.model.param.*;
 import proj.elevators.elevatorSystem.service.ElevatorSystemService;
+import proj.elevators.elevatorSystem.system.ElevatorImpl;
 
 @RestController
 @RequestMapping("/api/system")
@@ -91,19 +92,22 @@ public class ElevatorSystemController {
     @PatchMapping("/update")
     public ResponseEntity<?> update(@RequestBody UpdateParam updateParam) {
         try {
-            service.update(updateParam.elevatorId(), updateParam.elevator());
+            service.update(
+                    updateParam.elevatorId(),
+                    ElevatorImpl.fromElevatorParam(updateParam.elevatorParam())
+            );
             logger.info(
                     "Updated elevator with id " +
                             updateParam.elevatorId() +
                             " with parameters: " +
-                            updateParam.elevator()
+                            updateParam.elevatorParam()
             );
         } catch (ElevatorSystemException e) {
             logger.info(
                     "Could not update elevator with id " +
                             updateParam.elevatorId() +
                             " with parameters: " +
-                            updateParam.elevator()
+                            updateParam.elevatorParam()
             );
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
@@ -124,14 +128,14 @@ public class ElevatorSystemController {
 
     @GetMapping("/status")
     public ResponseEntity<?> status() {
-        StatusParam statusParam;
+        StatusResponse statusResponse;
         try {
-            statusParam = service.status();
+            statusResponse = service.status();
             logger.info("Successfully returned status");
         } catch (ElevatorSystemException e) {
             logger.info("Could not return status");
             return ResponseEntity.badRequest().body(e.errorInfo());
         }
-        return ResponseEntity.ok().body(statusParam);
+        return ResponseEntity.ok().body(statusResponse);
     }
 }

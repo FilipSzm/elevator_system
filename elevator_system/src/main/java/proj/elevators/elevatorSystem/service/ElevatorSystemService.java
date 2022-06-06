@@ -1,10 +1,8 @@
 package proj.elevators.elevatorSystem.service;
 
 import org.springframework.stereotype.Service;
-import proj.elevators.elevatorSystem.model.Direction;
-import proj.elevators.elevatorSystem.model.Elevator;
-import proj.elevators.elevatorSystem.model.ElevatorSystem;
-import proj.elevators.elevatorSystem.model.param.StatusParam;
+import proj.elevators.elevatorSystem.model.*;
+import proj.elevators.elevatorSystem.model.param.StatusResponse;
 import proj.elevators.elevatorSystem.system.ElevatorSystemImpl;
 
 import java.util.Collection;
@@ -42,13 +40,17 @@ public class ElevatorSystemService {
         elevatorSystem.step();
     }
 
-    public StatusParam status() {
+    public StatusResponse status() {
         var elevators = elevatorSystem.status();
-        var pickups = elevatorSystem.pickupList();
+        var pickups = elevatorSystem.pickupList().stream()
+                .map(Pickup::toPickupResponse)
+                .toList();
         var targets = elevatorSystem.elevators().stream()
                 .map(Elevator::targets)
-                .flatMap(Collection::stream).toList();
+                .flatMap(Collection::stream)
+                .map(Target::toTargetResponse)
+                .toList();
 
-        return new StatusParam(elevators, pickups, targets);
+        return new StatusResponse(elevators, pickups, targets);
     }
 }

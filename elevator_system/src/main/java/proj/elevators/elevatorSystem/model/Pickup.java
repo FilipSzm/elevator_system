@@ -1,5 +1,7 @@
 package proj.elevators.elevatorSystem.model;
 
+import proj.elevators.elevatorSystem.model.param.PickupResponse;
+
 /**
  * {@code Pickup} is an object that represents single request for pickup in {@code ElevatorSystem}.
  */
@@ -76,5 +78,12 @@ public class Pickup {
      */
     public void increaseWaitTimeScalar() {
         if (waitTimeScalar < 1000) waitTimeScalar++;
+    }
+
+    /**
+     * @return new {@code PickupResponse} with parameters same as this {@code Pickup}.
+     */
+    public PickupResponse toPickupResponse() {
+        return new PickupResponse(floorNumber, direction, waitTimeScalar);
     }
 }

@@ -2,8 +2,7 @@ package proj.elevators.elevatorSystem.model.param;
 
 /**
  * wrapper object for json conversion purposes.
- * @param elevatorId
  * @param floorNumber
+ * @param waitTimeScalar
  */
-public record TargetParam(int elevatorId, int floorNumber) { }
-
+public record TargetResponse(int floorNumber, int waitTimeScalar) { }

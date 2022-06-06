@@ -2,26 +2,29 @@ plugins {
 	id 'org.springframework.boot' version '2.7.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.3"
 }
 
-group = 'proj.elevators'
+group = 'proj.elevator'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '18'
 
 repositories {
 	mavenCentral()
 }
 
+sonarqube {
+	properties {
+		property "sonar.projectKey", "FilipSzm_elevator_system"
+		property "sonar.organization", "filipszm"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'net.logstash.logback:logstash-logback-encoder:7.1.1'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
 
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }

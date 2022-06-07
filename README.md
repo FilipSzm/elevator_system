@@ -3,13 +3,7 @@
 <h3>Instructions to use</h3>
 <ul>
     <li>In elevator_system folder run './gradlew bootRun' command</li>
-    <li>In elevators_app folder run following commands:
-        <ul>
-            <li>'npm run build'</li>
-            <li>'npm install -g serve'</li>
-            <li>'serve -s build'</li>
-        </ul>
-    </li>
+    <li>In elevators_app folder run 'npm start' command</li>
 </ul>
 
 <h4>System requirements:</h4>
@@ -57,4 +51,3 @@
 <h6>W folderze postman_requests są przykładowe zaptania do api.</h6>
 <h6>System może nie działać poprawnie przy używaniu go asynchronicznie, </br>
 ponieważ nie był tworzony z myślą o wielowątkowości.</h6>
-<h6></h6>

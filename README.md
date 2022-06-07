@@ -1,12 +1,12 @@
-# Elevator System
+# System Wind
 
-<h3>Instructions to use</h3>
+<h3>Instrukcja do uruchomienia</h3>
 <ul>
-    <li>In elevator_system folder run './gradlew bootRun' command</li>
-    <li>In elevators_app folder run 'npm start' command</li>
+    <li>W folderze elevator_system uruchom komendę: './gradlew bootRun'</li>
+    <li>W folderze elevators_app uruchom komendę: 'npm start'</li>
 </ul>
 
-<h4>System requirements:</h4>
+<h4>Wymagania systemowe:</h4>
 <ul>
     <li>Node.js</li>
     <li>Java 18</li>
@@ -27,15 +27,15 @@
     <li>Wybór piętra na które zmierza winda jest dokonywany na podstawie priorytetów</li>
     <li>Im dużej zgłoszenie czeka na wykonanie tym większy ma priorytet</li>
     <li>Bardzej oddalone zapytania mają mniejszy priorytet</li>
-    <li>Zależność priorytetów 'pickup' oraz 'target' są 
-        modyfikowalne (domyślnie 'target' ma większy priorytet)</li>
+    <li>Zależność priorytetów 'pickup' oraz 'target' jest 
+        modyfikowalna (domyślnie 'target' ma większy priorytet)</li>
     <li>Winda która jest w ruch nie może nagle zmienić kierunku</li>
     <li>Jeśli winda po drodze do swojego celu napotka piętro z 
         którego ktoś chce wsiąść/wysiąść, zatrzymuje się na nim</li>
 </ul>
 
 <h4>Funkcjonalności:</h4>
-<h6>System wind jest dostępny poprzez aplikacje minimalistyczny 
+<h6>System wind jest dostępny poprzez minimalistyczny 
     frontend napisany w Reakcie, </br> 
     oraz znacznie bardziej konfigurowalne 
     REST api dostępne pod endpointem '/api/system', </br>
@@ -48,6 +48,6 @@
 <h6>Cały kod systemu wind jest udokumentowy w 
     postaci JavaDoc.</h6>
 <h6>Testy które wykonałem były głównie maualne oraz integracyjne.</h6>
-<h6>W folderze postman_requests są przykładowe zaptania do api.</h6>
+<h6>W folderze postman_requests są przykładowe zapytania do api.</h6>
 <h6>System może nie działać poprawnie przy używaniu go asynchronicznie, </br>
 ponieważ nie był tworzony z myślą o wielowątkowości.</h6>
